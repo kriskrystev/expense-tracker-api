@@ -6,10 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { PageDto, PageOptionsDto } from 'src/core/dto/page.dto';
+import { ReadCategoryDto } from './dto/read-category.dto';
 
 @Controller('category')
 export class CategoryController {
@@ -26,8 +31,11 @@ export class CategoryController {
   }
 
   @Get()
-  findAll() {
-    return this.categoryService.findAll();
+  @HttpCode(HttpStatus.OK)
+  findAll(
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<ReadCategoryDto>> {
+    return this.categoryService.findAll(pageOptionsDto);
   }
 
   @Get(':id')
