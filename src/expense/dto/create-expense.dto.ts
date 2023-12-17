@@ -9,5 +9,5 @@ export class CreateExpenseDto {
 
   amount: number;
 
-  date: Date;
+  // date: Date;
 }

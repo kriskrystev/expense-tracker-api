@@ -10,6 +10,7 @@ import { Expense } from './expense/entities/expense.entity';
 @Module({
   imports: [
     CategoryModule,
+    ExpenseModule,
     TypeOrmModule.forRoot({
       // this is a config for dev/test only, don't use in prod
       type: 'mysql',
@@ -21,7 +22,6 @@ import { Expense } from './expense/entities/expense.entity';
       entities: [Expense, Category],
       synchronize: true,
     }),
-    ExpenseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
