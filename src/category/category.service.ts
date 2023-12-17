@@ -62,8 +62,8 @@ export class CategoryService {
     return category;
   }
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return this.categoryRepository.save({
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    return await this.categoryRepository.save({
       id,
       ...updateCategoryDto,
     });
