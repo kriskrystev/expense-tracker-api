@@ -1,4 +1,8 @@
-import { PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 export abstract class BaseEntity {
@@ -8,4 +12,8 @@ export abstract class BaseEntity {
   @CreateDateColumn()
   @Exclude()
   createdAt: Date;
+
+  @UpdateDateColumn()
+  @Exclude()
+  updatedAt: Date;
 }

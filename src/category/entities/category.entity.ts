@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/core/entities/base.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Expense } from 'src/expense/entities/expense.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class Category extends BaseEntity {
@@ -8,4 +9,7 @@ export class Category extends BaseEntity {
 
   @Column()
   description: string;
+
+  @OneToMany(() => Expense, (expense) => expense.category)
+  expenses: Expense[];
 }
