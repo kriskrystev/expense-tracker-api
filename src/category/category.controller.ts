@@ -30,7 +30,7 @@ export class CategoryController {
   @Post('/check-if-exists')
   @HttpCode(HttpStatus.OK)
   checkUnique(@Body() body: any) {
-    return this.categoryService.checkIfExists(body.name);
+    return this.categoryService.checkIfExists({ name: body.name });
   }
 
   @Get()

@@ -18,12 +18,12 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  async checkIfExists(name: string) {
-    return await this.categoryRepository.exist({ where: { name } });
+  async checkIfExists(options: any) {
+    return await this.categoryRepository.exist({ where: { ...options } });
   }
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const exists = await this.checkIfExists(createCategoryDto.name);
+    const exists = await this.checkIfExists({ name: createCategoryDto.name });
 
     if (exists) {
       throw new CategoryConflict(createCategoryDto.name);
@@ -70,7 +70,7 @@ export class CategoryService {
   }
 
   async remove(id: string) {
-    const exists = await this.checkIfExists(id);
+    const exists = await this.checkIfExists({ id });
 
     if (!exists) {
       throw new CategoryNotFound(id);
