@@ -4,8 +4,10 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
-import { PageDto, PageMetaDto, PageOptionsDto } from 'src/core/dto/page.dto';
+import { PageDto } from 'src/core/dto/page.dto';
 import { ReadCategoryDto } from './dto/read-category.dto';
+import { PageOptionsDto } from 'src/core/dto/page-options.dto';
+import { PageMetaDto } from 'src/core/dto/page-meta.dto';
 
 @Injectable()
 export class CategoryService {
