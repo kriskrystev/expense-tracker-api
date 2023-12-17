@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { CategoryModule } from './category/category.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category } from './category/entities/category.entity';
+import { ExpenseModule } from './expense/expense.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Category } from './category/entities/category.entity';
       entities: [Category],
       synchronize: true,
     }),
+    ExpenseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
