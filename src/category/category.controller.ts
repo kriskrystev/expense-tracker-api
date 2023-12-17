@@ -22,11 +22,13 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoryService.create(createCategoryDto);
   }
 
   @Post('/check-if-exists')
+  @HttpCode(HttpStatus.OK)
   checkUnique(@Body() body: any) {
     return this.categoryService.checkIfExists(body.name);
   }
@@ -40,6 +42,7 @@ export class CategoryController {
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(id);
   }
@@ -53,6 +56,7 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.OK)
   remove(@Param('id') id: string) {
     return this.categoryService.remove(id);
   }

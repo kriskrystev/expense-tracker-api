@@ -1,5 +1,9 @@
+import { Length } from 'class-validator';
+
 export class CreateCategoryDto {
-  // TODO: add validators from class-validator lib
+  @Length(1, 255)
   name: string;
+
+  @Length(1, 255)
   description: string;
 }

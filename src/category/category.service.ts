@@ -8,6 +8,8 @@ import { PageDto } from 'src/core/dto/page.dto';
 import { ReadCategoryDto } from './dto/read-category.dto';
 import { PageOptionsDto } from 'src/core/dto/page-options.dto';
 import { PageMetaDto } from 'src/core/dto/page-meta.dto';
+import { CategoryConflict } from './exceptions/4xx/category-409';
+import { CategoryNotFound } from './exceptions/4xx/category-404';
 
 @Injectable()
 export class CategoryService {
@@ -25,8 +27,16 @@ export class CategoryService {
     return !!category;
   }
 
-  create(createCategoryDto: CreateCategoryDto) {
-    return this.categoryRepository.save(createCategoryDto);
+  async create(createCategoryDto: CreateCategoryDto) {
+    const exists = await this.checkIfExists(createCategoryDto.name);
+
+    if (exists) {
+      throw new CategoryConflict(createCategoryDto.name);
+    }
+
+    const newCategory = await this.categoryRepository.save(createCategoryDto);
+
+    return newCategory;
   }
 
   async findAll(
@@ -47,8 +57,14 @@ export class CategoryService {
     return new PageDto(entities, pageMetaDto);
   }
 
-  findOne(id: string) {
-    return this.categoryRepository.findOneBy({ id });
+  async findOne(id: string) {
+    const category = await this.categoryRepository.findOneBy({ id });
+
+    if (!category) {
+      throw new CategoryNotFound(id);
+    }
+
+    return category;
   }
 
   update(id: string, updateCategoryDto: UpdateCategoryDto) {
@@ -58,7 +74,15 @@ export class CategoryService {
     });
   }
 
-  remove(id: string) {
-    return this.categoryRepository.delete(id);
+  async remove(id: string) {
+    const exists = await this.checkIfExists(id);
+
+    if (!exists) {
+      throw new CategoryNotFound(id);
+    }
+
+    const deleteResult = await this.categoryRepository.delete(id);
+
+    return deleteResult.affected >= 1;
   }
 }
