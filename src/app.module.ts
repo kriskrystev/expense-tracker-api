@@ -15,7 +15,7 @@ import { Category } from './category/entities/category.entity';
       port: 3306,
       username: 'root',
       password: 'root123',
-      database: 'todos-db',
+      database: 'expense-tracker',
       entities: [Category],
       synchronize: true,
     }),

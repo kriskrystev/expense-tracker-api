@@ -15,12 +15,12 @@ export class CategoryService {
   ) {}
 
   async checkIfExists(name: string) {
-    const cateogry = await this.categoryRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: {
         name,
       },
     });
-    return !!cateogry;
+    return !!category;
   }
 
   create(createCategoryDto: CreateCategoryDto) {
