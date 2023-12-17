@@ -5,6 +5,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Expense } from './entities/expense.entity';
 import { Repository } from 'typeorm';
 import { CategoryService } from 'src/category/category.service';
+import { PageOptionsDto } from 'src/core/dto/page-options.dto';
+import { PageDto } from 'src/core/dto/page.dto';
+import { ReadExpenseDto } from './dto/read-expense.dto';
+import { PageMetaDto } from 'src/core/dto/page-meta.dto';
 
 @Injectable()
 export class ExpenseService {
@@ -29,8 +33,31 @@ export class ExpenseService {
     return await this.expenseRepository.save(expense);
   }
 
-  findAll() {
-    return `This action returns all expense`;
+  async findAll(
+    pageOptionsDto: PageOptionsDto,
+    explode: boolean,
+  ): Promise<PageDto<ReadExpenseDto>> {
+    const queryBuilder = this.expenseRepository.createQueryBuilder('expense');
+
+    if (explode) {
+      queryBuilder
+        .leftJoinAndSelect('expense.category', 'category')
+        .orderBy('expense.createdAt', pageOptionsDto.order)
+        .skip(pageOptionsDto.skip)
+        .take(pageOptionsDto.take);
+    } else {
+      queryBuilder
+        .orderBy('expense.createdAt', pageOptionsDto.order)
+        .skip(pageOptionsDto.skip)
+        .take(pageOptionsDto.take);
+    }
+
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+    return new PageDto(entities, pageMetaDto);
   }
 
   findOne(id: number) {

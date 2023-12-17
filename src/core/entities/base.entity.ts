@@ -10,10 +10,10 @@ export abstract class BaseEntity {
   id: string;
 
   @CreateDateColumn()
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   createdAt: Date;
 
   @UpdateDateColumn()
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   updatedAt: Date;
 }

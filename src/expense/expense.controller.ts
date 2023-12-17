@@ -1,7 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { ExpenseService } from './expense.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { PageOptionsDto } from 'src/core/dto/page-options.dto';
+import { PageDto } from 'src/core/dto/page.dto';
+import { ReadExpenseDto } from './dto/read-expense.dto';
 
 @Controller('expense')
 export class ExpenseController {
@@ -13,8 +25,11 @@ export class ExpenseController {
   }
 
   @Get()
-  findAll() {
-    return this.expenseService.findAll();
+  findAll(
+    @Query() pageOptionsDto: PageOptionsDto,
+    @Query('explode') explode: boolean,
+  ): Promise<PageDto<ReadExpenseDto>> {
+    return this.expenseService.findAll(pageOptionsDto, explode);
   }
 
   @Get(':id')
