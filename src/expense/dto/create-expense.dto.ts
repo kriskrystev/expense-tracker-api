@@ -1,4 +1,4 @@
-import { IsUUID, MaxLength } from 'class-validator';
+import { IsUUID, MaxLength, Min } from 'class-validator';
 
 export class CreateExpenseDto {
   @IsUUID()
@@ -7,6 +7,7 @@ export class CreateExpenseDto {
   @MaxLength(255)
   description: string;
 
+  @Min(0)
   amount: number;
 
   // date: Date;
