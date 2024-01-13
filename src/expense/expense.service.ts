@@ -9,6 +9,7 @@ import { PageOptionsDto } from 'src/core/dto/page-options.dto';
 import { PageDto } from 'src/core/dto/page.dto';
 import { ReadExpenseDto } from './dto/read-expense.dto';
 import { PageMetaDto } from 'src/core/dto/page-meta.dto';
+import { ExpenseNotFound } from './exceptions/expense-404';
 
 @Injectable()
 export class ExpenseService {
@@ -68,7 +69,14 @@ export class ExpenseService {
     return `This action updates a #${id} expense`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} expense`;
+  async remove(id: string) {
+    const exists = await this.expenseRepository.exist({ where: { id } });
+
+    if (!exists) {
+      throw new ExpenseNotFound(id);
+    }
+
+    const deleteResult = await this.expenseRepository.delete(id);
+    return deleteResult.affected >= 1;
   }
 }
