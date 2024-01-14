@@ -5,4 +5,5 @@ export class ReadExpenseDto {
   category: ReadCategoryDto;
   description: string;
   amount: number;
+  date: string;
 }

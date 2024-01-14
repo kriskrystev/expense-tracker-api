@@ -23,7 +23,7 @@ export class ExpenseService {
     const expense = new Expense();
     expense.description = createExpenseDto.description;
     expense.amount = createExpenseDto.amount;
-    expense.date = new Date(); // todo: figure out format and use the one that the create dto has
+    expense.date = createExpenseDto.date;
 
     const category = await this.categoryService.findOne(
       createExpenseDto.categoryId,
@@ -65,8 +65,11 @@ export class ExpenseService {
     return `This action returns a #${id} expense`;
   }
 
-  update(id: number, updateExpenseDto: UpdateExpenseDto) {
-    return `This action updates a #${id} expense`;
+  async update(id: string, updateExpenseDto: UpdateExpenseDto) {
+    return await this.expenseRepository.save({
+      id,
+      ...updateExpenseDto,
+    });
   }
 
   async remove(id: string) {

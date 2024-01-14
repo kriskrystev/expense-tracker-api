@@ -10,5 +10,5 @@ export class CreateExpenseDto {
   @Min(0)
   amount: number;
 
-  // date: Date;
+  date: string;
 }
