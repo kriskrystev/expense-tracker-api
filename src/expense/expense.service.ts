@@ -62,10 +62,12 @@ export class ExpenseService {
   }
 
   async update(id: string, updateExpenseDto: UpdateExpenseDto) {
-    return await this.expenseRepository.save({
-      id,
-      ...updateExpenseDto,
-    });
+    const expenseEntity = await this.expenseRepository.findOneBy({ id: id });
+    expenseEntity.category = await this.categoryService.findOne(
+      updateExpenseDto.categoryId,
+    );
+
+    return await this.expenseRepository.save(expenseEntity);
   }
 
   async remove(id: string) {
