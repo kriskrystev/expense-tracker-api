@@ -32,11 +32,6 @@ export class ExpenseController {
     return this.expenseService.findAll(pageOptionsDto, explode);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.expenseService.findOne(+id);
-  }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateExpenseDto: UpdateExpenseDto) {
     return this.expenseService.update(id, updateExpenseDto);

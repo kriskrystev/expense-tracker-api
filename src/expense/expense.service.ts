@@ -61,10 +61,6 @@ export class ExpenseService {
     return new PageDto(entities, pageMetaDto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} expense`;
-  }
-
   async update(id: string, updateExpenseDto: UpdateExpenseDto) {
     return await this.expenseRepository.save({
       id,
