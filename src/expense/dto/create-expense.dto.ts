@@ -1,9 +1,10 @@
-import { IsUUID, MaxLength, Min } from 'class-validator';
+import { IsUUID, MaxLength, Min, IsOptional } from 'class-validator';
 
 export class CreateExpenseDto {
   @IsUUID()
   categoryId: string;
 
+  @IsOptional()
   @MaxLength(255)
   description: string;
 

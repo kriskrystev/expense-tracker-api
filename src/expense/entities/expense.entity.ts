@@ -1,9 +1,11 @@
+import { IsOptional } from 'class-validator';
 import { Category } from 'src/category/entities/category.entity';
 import { BaseEntity } from 'src/core/entities/base.entity';
 import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 
 @Entity()
 export class Expense extends BaseEntity {
+  @IsOptional()
   @Column()
   description: string;
 
