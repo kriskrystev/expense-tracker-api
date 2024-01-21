@@ -4,7 +4,6 @@ export class CreateExpenseDto {
   @IsUUID()
   categoryId: string;
 
-  @IsOptional()
   @MaxLength(255)
   description: string;
 

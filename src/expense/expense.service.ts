@@ -63,6 +63,10 @@ export class ExpenseService {
 
   async update(id: string, updateExpenseDto: UpdateExpenseDto) {
     const expenseEntity = await this.expenseRepository.findOneBy({ id: id });
+    expenseEntity.amount = updateExpenseDto.amount;
+    expenseEntity.categoryId = updateExpenseDto.categoryId;
+    expenseEntity.date = updateExpenseDto.date;
+    expenseEntity.description = updateExpenseDto.description;
     expenseEntity.category = await this.categoryService.findOne(
       updateExpenseDto.categoryId,
     );

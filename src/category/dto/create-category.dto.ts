@@ -1,9 +1,9 @@
 import { Length } from 'class-validator';
 
 export class CreateCategoryDto {
-  @Length(1, 255)
+  @Length(2, 255)
   name: string;
 
-  @Length(1, 255)
+  @Length(2, 255)
   description: string;
 }
