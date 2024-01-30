@@ -17,5 +17,5 @@ export class Expense extends BaseEntity {
   amount: number;
 
   @Column()
-  date: string;
+  date: Date;
 }

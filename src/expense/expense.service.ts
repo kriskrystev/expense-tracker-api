@@ -23,7 +23,7 @@ export class ExpenseService {
     const expense = new Expense();
     expense.description = createExpenseDto.description;
     expense.amount = createExpenseDto.amount;
-    expense.date = createExpenseDto.date;
+    expense.date = new Date(createExpenseDto.date);
 
     const category = await this.categoryService.findOne(
       createExpenseDto.categoryId,
@@ -65,7 +65,7 @@ export class ExpenseService {
     const expenseEntity = await this.expenseRepository.findOneBy({ id: id });
     expenseEntity.amount = updateExpenseDto.amount;
     expenseEntity.categoryId = updateExpenseDto.categoryId;
-    expenseEntity.date = updateExpenseDto.date;
+    expenseEntity.date = new Date(updateExpenseDto.date);
     expenseEntity.description = updateExpenseDto.description;
     expenseEntity.category = await this.categoryService.findOne(
       updateExpenseDto.categoryId,
