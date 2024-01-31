@@ -16,7 +16,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     TypeOrmModule.forRoot({
       // this is a config for dev/test only, don't use in prod
       type: 'mysql',
-      host: 'localhost',
+      host: 'host.docker.internal',
       port: 3306,
       username: 'root',
       password: 'root123',
