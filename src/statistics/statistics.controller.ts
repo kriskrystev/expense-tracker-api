@@ -6,11 +6,11 @@ export class StatisticsController {
   constructor(private statisticsService: StatisticsService) {}
 
   @Get()
-  findTop(
+  findTopBetweenDates(
     @Query('top') top: number,
     @Query('from') from: string,
     @Query('to') to: string,
   ) {
-    return this.statisticsService.findTop(top, from, to);
+    return this.statisticsService.findTopBetweenDates(top, from, to);
   }
 }

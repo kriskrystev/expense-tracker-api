@@ -9,7 +9,7 @@ export class StatisticsService {
     @InjectRepository(Expense) private expenseRepository: Repository<Expense>,
   ) {}
 
-  async findTop(top: number, from: string, to: string) {
+  async findTopBetweenDates(top: number, from: string, to: string) {
     const unsorted = await this.expenseRepository
       .createQueryBuilder('expense')
       .where('expense.date BETWEEN :startDate AND :endDate', {

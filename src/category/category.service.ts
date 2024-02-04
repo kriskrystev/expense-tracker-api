@@ -3,7 +3,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, Repository } from 'typeorm';
 import { PageDto } from 'src/core/dto/page.dto';
 import { ReadCategoryDto } from './dto/read-category.dto';
 import { PageOptionsDto } from 'src/core/dto/page-options.dto';
@@ -18,8 +18,12 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  async checkIfExists(options: any) {
-    return await this.categoryRepository.exist({ where: { ...options } });
+  async checkIfExists(
+    options: FindOptionsWhere<Category>[] | FindOptionsWhere<Category>,
+  ) {
+    return await this.categoryRepository.exist({
+      where: options,
+    });
   }
 
   async create(createCategoryDto: CreateCategoryDto) {
@@ -70,7 +74,7 @@ export class CategoryService {
   }
 
   async remove(id: string) {
-    const exists = await this.checkIfExists({ id });
+    const exists = await this.checkIfExists({ id: id });
 
     if (!exists) {
       throw new CategoryNotFound(id);
