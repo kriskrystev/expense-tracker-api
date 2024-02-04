@@ -10,7 +10,13 @@ export class StatisticsController {
     @Query('top') top: number,
     @Query('from') from: string,
     @Query('to') to: string,
+    @Query('categoryId') categoryId: string,
   ) {
-    return this.statisticsService.findTopBetweenDates(top, from, to);
+    return this.statisticsService.findTopBetweenDates(
+      top,
+      from,
+      to,
+      categoryId,
+    );
   }
 }
