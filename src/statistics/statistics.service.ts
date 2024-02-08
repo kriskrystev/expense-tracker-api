@@ -30,4 +30,22 @@ export class StatisticsService {
       .slice(0, top);
     return topNResults;
   }
+
+  async getTotalExpensesForEachCategory() {
+    const queryBuilder = this.expenseRepository.createQueryBuilder('expense');
+    queryBuilder.leftJoinAndSelect('expense.category', 'category');
+    const { entities } = await queryBuilder.getRawAndEntities();
+    const results = entities.reduce((acc, current) => {
+      if (!acc[current.category.name]) {
+        acc[current.category.name] = {
+          expenseSum: 0,
+        };
+      } else {
+        acc[current.category.name].expenseSum += current.amount;
+      }
+
+      return acc;
+    }, {});
+    return results;
+  }
 }

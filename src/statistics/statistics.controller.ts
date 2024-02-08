@@ -19,4 +19,9 @@ export class StatisticsController {
       categoryId,
     );
   }
+
+  @Get('/total-expenses')
+  findToTatalExpensesForEachCategory() {
+    return this.statisticsService.getTotalExpensesForEachCategory();
+  }
 }
