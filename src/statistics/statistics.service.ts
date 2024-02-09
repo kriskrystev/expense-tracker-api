@@ -35,20 +35,24 @@ export class StatisticsService {
     const queryBuilder = this.expenseRepository.createQueryBuilder('expense');
     queryBuilder.leftJoinAndSelect('expense.category', 'category');
     const { entities } = await queryBuilder.getRawAndEntities();
-    let totalAmountOfExpenses = 0;
 
-    const results = entities.reduce((acc, current) => {
-      if (!acc[current.category.name]) {
-        acc[current.category.name] = {
-          expenseSum: 0,
-        };
-      } else {
-        acc[current.category.name].expenseSum += current.amount;
-        totalAmountOfExpenses += current.amount;
-      }
+    const { results, totalAmountOfExpenses } = entities.reduce(
+      (acc, current) => {
+        if (!acc['results'][current.category.name]) {
+          acc['results'][current.category.name] = {
+            expenseSum: current.amount,
+          };
+          acc['totalAmountOfExpenses'] += current.amount;
+        } else {
+          acc['results'][current.category.name].expenseSum += current.amount;
+          acc['totalAmountOfExpenses'] += current.amount;
+        }
+        console.log(acc);
 
-      return acc;
-    }, {});
+        return acc;
+      },
+      { results: {}, totalAmountOfExpenses: 0 },
+    );
     return { results, totalAmountOfExpenses };
   }
 
@@ -88,5 +92,21 @@ export class StatisticsService {
       categories: results,
       totalAmountOfExpenses,
     };
+  }
+
+  async getAverageMonthlyExpenses(from: Date, to: Date) {
+    const queryBuilder = this.expenseRepository.createQueryBuilder('expense');
+    const [expenses, count] = await queryBuilder
+      .where('expense.date BETWEEN :startDate AND :endDate', {
+        startDate: from,
+        endDate: to,
+      })
+      .getManyAndCount();
+
+    const expensesSum = expenses.reduce((acc, current) => {
+      return acc + current.amount;
+    }, 0);
+
+    return Math.floor(expensesSum / count);
   }
 }

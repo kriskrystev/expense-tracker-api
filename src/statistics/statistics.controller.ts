@@ -34,4 +34,17 @@ export class StatisticsController {
   findCategoryPercentageOfTotal() {
     return this.statisticsService.getPercentageOfEachCategory();
   }
+
+  @Get('/average-monthly')
+  findAverageMonthlyExpenses() {
+    const date = new Date();
+
+    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    return this.statisticsService.getAverageMonthlyExpenses(
+      startOfMonth,
+      endOfMonth,
+    );
+  }
 }
