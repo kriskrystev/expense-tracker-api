@@ -29,4 +29,9 @@ export class StatisticsController {
   findCategoryExtremes() {
     return this.statisticsService.getCategoriesExtremes();
   }
+
+  @Get('/percentage-by-categories')
+  findCategoryPercentageOfTotal() {
+    return this.statisticsService.getPercentageOfEachCategory();
+  }
 }

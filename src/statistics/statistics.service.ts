@@ -35,6 +35,8 @@ export class StatisticsService {
     const queryBuilder = this.expenseRepository.createQueryBuilder('expense');
     queryBuilder.leftJoinAndSelect('expense.category', 'category');
     const { entities } = await queryBuilder.getRawAndEntities();
+    let totalAmountOfExpenses = 0;
+
     const results = entities.reduce((acc, current) => {
       if (!acc[current.category.name]) {
         acc[current.category.name] = {
@@ -42,11 +44,12 @@ export class StatisticsService {
         };
       } else {
         acc[current.category.name].expenseSum += current.amount;
+        totalAmountOfExpenses += current.amount;
       }
 
       return acc;
     }, {});
-    return results;
+    return { results, totalAmountOfExpenses };
   }
 
   /**
@@ -55,7 +58,7 @@ export class StatisticsService {
    * the min would be 20 and the max would be 500 on rent
    */
   async getCategoriesExtremes() {
-    const results = await this.getTotalExpensesForEachCategory();
+    const { results } = await this.getTotalExpensesForEachCategory();
     const expenses = [];
     for (const key in results) {
       if (Object.prototype.hasOwnProperty.call(results, key)) {
@@ -67,6 +70,23 @@ export class StatisticsService {
     return {
       min: Math.min(...expenses),
       max: Math.max(...expenses),
+    };
+  }
+
+  async getPercentageOfEachCategory() {
+    const { results, totalAmountOfExpenses } =
+      await this.getTotalExpensesForEachCategory();
+    for (const key in results) {
+      if (Object.prototype.hasOwnProperty.call(results, key)) {
+        const percentage =
+          (results[key].expenseSum / totalAmountOfExpenses) * 100;
+        results[key] = Math.round((percentage + Number.EPSILON) * 100) / 100;
+      }
+    }
+
+    return {
+      categories: results,
+      totalAmountOfExpenses,
     };
   }
 }
