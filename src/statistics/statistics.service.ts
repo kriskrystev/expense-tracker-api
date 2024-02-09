@@ -48,4 +48,25 @@ export class StatisticsService {
     }, {});
     return results;
   }
+
+  /**
+   * Returns the min and max by category
+   * e.g You've spent 20 on bills, 30 on food, 500 on rent
+   * the min would be 20 and the max would be 500 on rent
+   */
+  async getCategoriesExtremes() {
+    const results = await this.getTotalExpensesForEachCategory();
+    const expenses = [];
+    for (const key in results) {
+      if (Object.prototype.hasOwnProperty.call(results, key)) {
+        const element = results[key];
+        expenses.push(element.expenseSum);
+      }
+    }
+
+    return {
+      min: Math.min(...expenses),
+      max: Math.max(...expenses),
+    };
+  }
 }

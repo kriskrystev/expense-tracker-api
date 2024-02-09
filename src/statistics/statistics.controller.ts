@@ -21,7 +21,12 @@ export class StatisticsController {
   }
 
   @Get('/total-expenses')
-  findToTatalExpensesForEachCategory() {
+  findTotalExpensesForEachCategory() {
     return this.statisticsService.getTotalExpensesForEachCategory();
+  }
+
+  @Get('/category-extremes')
+  findCategoryExtremes() {
+    return this.statisticsService.getCategoriesExtremes();
   }
 }
