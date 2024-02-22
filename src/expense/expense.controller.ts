@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ExpenseService } from './expense.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
@@ -14,7 +15,9 @@ import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { PageOptionsDto } from 'src/core/dto/page-options.dto';
 import { PageDto } from 'src/core/dto/page.dto';
 import { ReadExpenseDto } from './dto/read-expense.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('expense')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}

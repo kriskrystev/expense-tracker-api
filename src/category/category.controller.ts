@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -16,7 +17,9 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PageDto } from 'src/core/dto/page.dto';
 import { ReadCategoryDto } from './dto/read-category.dto';
 import { PageOptionsDto } from 'src/core/dto/page-options.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
