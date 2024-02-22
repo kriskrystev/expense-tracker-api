@@ -7,10 +7,13 @@ import { Category } from './category/entities/category.entity';
 import { ExpenseModule } from './expense/expense.module';
 import { Expense } from './expense/entities/expense.entity';
 import { StatisticsModule } from './statistics/statistics.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     CategoryModule,
+    UsersModule,
     ExpenseModule,
     StatisticsModule,
     TypeOrmModule.forRoot({
@@ -24,6 +27,8 @@ import { StatisticsModule } from './statistics/statistics.module';
       entities: [Expense, Category],
       synchronize: true,
     }),
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
