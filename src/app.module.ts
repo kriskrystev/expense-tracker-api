@@ -9,6 +9,7 @@ import { Expense } from './expense/entities/expense.entity';
 import { StatisticsModule } from './statistics/statistics.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { UsersModule } from './users/users.module';
       username: 'root',
       password: 'root123',
       database: 'expense-tracker',
-      entities: [Expense, Category],
+      entities: [User, Expense, Category],
       synchronize: true,
     }),
     AuthModule,
