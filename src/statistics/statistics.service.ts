@@ -47,7 +47,6 @@ export class StatisticsService {
           acc['results'][current.category.name].expenseSum += current.amount;
           acc['totalAmountOfExpenses'] += current.amount;
         }
-        console.log(acc);
 
         return acc;
       },
